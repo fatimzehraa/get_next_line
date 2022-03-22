@@ -6,90 +6,90 @@
 /*   By: fael-bou <fael-bou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 20:50:51 by fael-bou          #+#    #+#             */
-/*   Updated: 2022/03/15 23:46:29 by fael-bou         ###   ########.fr       */
+/*   Updated: 2022/03/22 18:43:05 by fael-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "get_next_line.h"
-#include<fcntl.h>
 #include<stdio.h>
 
-char *get_n_line(int fd, char *line)
+char	*get_until_newline(int fd, char *over_line)
 {
-	int n;
-	char *buffer;
-	
-	n = 1;
-	buffer = NULL;
+	int		read_ret;
+	char	*buffer;
+
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	while (!is_new_line(line) && n)
+	if (buffer == NULL)
+		return (NULL);
+	while (!is_new_line(over_line))
 	{
-		n = read(fd, buffer, BUFFER_SIZE);
-		if (n == -1)
+		read_ret = read(fd, buffer, BUFFER_SIZE);
+		if (read_ret == 0)
+			break ;
+		if (read_ret == -1)
 		{
 			free(buffer);
-			free(line);
+			free(over_line);
 			return (NULL);
 		}
-		buffer[n] = 0;
-		line = ft_strjoin(line, buffer);
+		buffer[read_ret] = 0;
+		over_line = ft_strjoin(over_line, buffer);
+		if (over_line == NULL)
+			break ;
 	}
 	free(buffer);
+	return (over_line);
+}
+
+char	*ft_get_line(char *str)
+{
+	int		line_len;
+	char	*line;
+
+	if (str[0] == '\0')
+		return (NULL);
+	line_len = is_new_line(str);
+	if (line_len == 0)
+		line_len = ft_strlen(str);
+	line = malloc((line_len + 1) * sizeof(char));
+	if (line == NULL)
+		return (NULL);
+	ft_strncpy(line, str, line_len);
 	return (line);
 }
 
-char *ft_get_line(char *str)
+char	*ft_get_rest(char *str)
 {
-	int i;
-	char *line;
+	int		line_len;
+	int		rest_len;
+	char	*rest;
 
-	if(str[0] == '\0')
+	if (str[0] == '\0')
 		return (NULL);
-	i = is_new_line(str) + 1;
-	line = malloc((i + 1) * sizeof(char));
-	if(line == NULL)
-		return (NULL);
-	ft_strncpy(line, str, i);
-	return (line);
-}
-
-char * ft_get_rest(char *str)
-{
-	int line_len;
-	int rest_len;
-	char *rest;
-
-	line_len = is_new_line(str) + 1;
+	line_len = is_new_line(str);
+	if (line_len == 0)
+		line_len = ft_strlen(str);
 	rest_len = ft_strlen(str + line_len);
 	rest = malloc(sizeof(char) * (rest_len + 1));
-	if(rest == NULL)
+	if (rest == NULL)
 		return (NULL);
 	ft_strncpy(rest, str + line_len, rest_len);
 	return (rest);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char *rest;
-	char *str;
-	char *line;
+	static char	*rest;
+	char		*str;
+	char		*line;
 
-	str = get_n_line(fd, rest);
+	str = get_until_newline(fd, rest);
 	if (str == NULL)
-		return NULL;
+	{
+		free(rest);
+		return (NULL);
+	}
 	line = ft_get_line(str);
 	rest = ft_get_rest(str);
 	free(str);
 	return (line);
-	
-}
-int main()
-{
-	int fd = open("file.txt", O_RDONLY);
-	char *s;
-	while((s = get_next_line(fd)))
-	{
-		printf("%s", s);
-	}
 }
