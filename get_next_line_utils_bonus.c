@@ -6,7 +6,7 @@
 /*   By: fael-bou <fael-bou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 17:03:57 by fael-bou          #+#    #+#             */
-/*   Updated: 2022/03/22 18:47:19 by fael-bou         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:34:35 by fael-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -78,8 +78,9 @@ char	*get_until_newline(int fd, char *over_line)
 	int		read_ret;
 	char	*buffer;
 
-	buffer = NULL;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (buffer == NULL)
+		return (NULL);
 	while (!is_new_line(over_line))
 	{
 		read_ret = read(fd, buffer, BUFFER_SIZE);
@@ -93,7 +94,7 @@ char	*get_until_newline(int fd, char *over_line)
 		}
 		buffer[read_ret] = 0;
 		over_line = ft_strjoin(over_line, buffer);
-		if (over_line)
+		if (over_line == NULL)
 			break ;
 	}
 	free(buffer);

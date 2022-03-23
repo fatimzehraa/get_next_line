@@ -6,13 +6,13 @@
 /*   By: fael-bou <fael-bou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 20:50:51 by fael-bou          #+#    #+#             */
-/*   Updated: 2022/03/22 13:01:08 by fael-bou         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:18:35 by fael-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
 #include<stdio.h>
 
-charr	*ft_get_line(char *str)
+char	*ft_get_line(char *str)
 {
 	int		i;
 	char	*line;
@@ -48,7 +48,7 @@ char	*ft_get_rest(char *str)
 	return (rest);
 }
 
-t_lis	*get_node(t_list **head, int fd)
+t_list	*get_node(t_list **head, int fd)
 {
 	t_list	*current;
 	t_list	*last;
@@ -78,7 +78,7 @@ t_lis	*get_node(t_list **head, int fd)
 
 void	free_node(t_list **head, int fd)
 {
-	t_lis	*current;
+	t_list	*current;
 	t_list	*previous;
 
 	current = *head;

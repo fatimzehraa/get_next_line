@@ -6,11 +6,10 @@
 /*   By: fael-bou <fael-bou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/08 17:03:13 by fael-bou          #+#    #+#             */
-/*   Updated: 2022/03/22 18:39:56 by fael-bou         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:26:29 by fael-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include<stdio.h>
 
 size_t	ft_strlen(char *s)
 {

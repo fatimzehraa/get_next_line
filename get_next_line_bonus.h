@@ -6,7 +6,7 @@
 /*   By: fael-bou <fael-bou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:14:31 by fael-bou          #+#    #+#             */
-/*   Updated: 2022/03/22 14:11:57 by fael-bou         ###   ########.fr       */
+/*   Updated: 2022/03/23 16:23:03 by fael-bou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 void	ft_strncpy(char *dst, char *src, size_t n);
 int		is_new_line(char *s);
+char	*get_until_newline(int fd, char *over_line);
 
 #endif
